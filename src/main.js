@@ -3,19 +3,23 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
-import Axios from "axios";
+import Axios from "./initAxios/initAxios";
+// import Axios from "axios";
+// Axios.defaults.baseURL = 'https://www.shangcongxuan.cn/sofa/api/fetch';
+import Qs from "qs";
 Vue.config.productionTip = false;
-
-import Mint from "mint-ui";
-Vue.use(Mint);
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
 /*
 // 按需引入部分组件
-import { Cell, Checklist } from 'mint-ui';
-Vue.component(Cell.name, Cell);
-Vue.component(Checklist.name, Checklist);
 */
 
+import { Toast } from 'vant';
+
+Vue.use(Toast);
 Vue.prototype.$axios = Axios;
+Vue.prototype.$Qs = Qs;
 
 /* eslint-disable no-new */
 new Vue({
