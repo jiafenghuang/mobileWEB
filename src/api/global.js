@@ -1,65 +1,61 @@
-export function fetchData(Vue, name, params) {
+import Axios from "../initAxios/initAxios";
+
+export function fetchData(name, params) {
   return new Promise((resolve, reject) => {
-    Vue.$axios.get(name, {
-        params
+    Axios.get(name, params)
+      .then(function(response) {
+        resolve(response);
       })
-      .then(function (response) {
-        resolve(response)
-      })
-      .catch(function (err) {
-        return reject(err)
+      .catch(function(err) {
+        return reject(err);
       });
-  })
+  });
 }
-export function postData(Vue, name, params) {
+export function postData(name, params) {
   return new Promise((resolve, reject) => {
-    Vue.$axios.post(name, {
-        params
+    Axios.post(name, params)
+      .then(function(response) {
+        resolve(response);
       })
-      .then(function (response) {
-        resolve(response)
-      })
-      .catch(function (err) {
-        return reject(err)
+      .catch(function(err) {
+        return reject(err);
       });
-  })
+  });
 }
-export function patchData(Vue, name, params) {
+export function patchData(name, params) {
   return new Promise((resolve, reject) => {
-    Vue.$axios.patch(name, {
-        params
+    Axios.patch(name, {
+      params
+    })
+      .then(function(response) {
+        resolve(response);
       })
-      .then(function (response) {
-        resolve(response)
-      })
-      .catch(function (err) {
-        return reject(err)
+      .catch(function(err) {
+        return reject(err);
       });
-  })
+  });
 }
-export function putData(Vue, name, params) {
+export function putData(name, params) {
   return new Promise((resolve, reject) => {
-    Vue.$axios.put(name, {
-        params
+    Axios.put(name, {
+      params
+    })
+      .then(function(response) {
+        resolve(response);
       })
-      .then(function (response) {
-        resolve(response)
-      })
-      .catch(function (err) {
-        return reject(err)
+      .catch(function(err) {
+        return reject(err);
       });
-  })
+  });
 }
-export function deleteData(Vue, name, data) {
+export function deleteData(name, data) {
   return new Promise((resolve, reject) => {
-    Vue.$axios.post(name, {
-        data
+    Axios.post(name, data)
+      .then(function(response) {
+        resolve(response);
       })
-      .then(function (response) {
-        resolve(response)
-      })
-      .catch(function (err) {
-        return reject(err)
+      .catch(function(err) {
+        return reject(err);
       });
-  })
+  });
 }

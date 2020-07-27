@@ -5,30 +5,57 @@ import Pillow from '@/components/Pillow'
 import Cart from '@/components/Cart'
 import Options from '@/components/Options'
 import Output_order from '@/components/Output_order'
+import Upload from '@/components/Upload'
+
 
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   routes: [{
       path: '/',
       name: 'sofa',
-      component: Sofa
+      component: Sofa,
+      props: {
+        navTitle: '沙发类'
+      }
     },
     {
       path: '/pillow',
       name: 'pillow',
-      component: Pillow
+      component: Pillow,
+      props: {
+        navTitle: '垫子类'
+      }
     }, {
       path: '/cart',
       name: 'cart',
-      component: Cart
+      component: Cart,
+      props: {
+        navTitle: '订单'
+      }
     }, {
       path: '/options',
       name: 'options',
-      component: Options
+      component: Options,
+      props: {
+        navTitle: '选项设置'
+      }
     }, {
       path: '/Output_order',
       name: 'Output_order',
-      component: Output_order
+      component: Output_order,
+      props: {
+        navTitle: '出货单'
+      }
+    }, {
+      path: '/Upload',
+      name: 'Upload',
+      component: Upload,
     }
   ]
 })
+// router.beforeEach((to, from, next) => {})
+// router.beforeResolve((to, from, next) => {})
+// router.afterEach((to, from, next) => {})
+
+
+export default router

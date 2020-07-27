@@ -1,14 +1,5 @@
 <template>
   <div id="app">
-    <van-nav-bar
-      title="标题"
-      left-text="返回"
-      right-text="按钮"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
-
     <router-view />
     <van-tabbar v-model="tabSelected" :fixed="false">
       <van-tabbar-item replace to="/" icon="home-o">木架</van-tabbar-item>
@@ -27,12 +18,7 @@ export default {
       tabSelected: ""
     };
   },
-  methods: {
-    onClickLeft() {
-      this.$router.go(-1);
-    },
-    onClickRight() {}
-  }
+  methods: {}
 };
 </script>
 <style>
