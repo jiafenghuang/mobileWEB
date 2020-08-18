@@ -115,6 +115,17 @@ import {
 } from "../util/handleArray";
 import { order_status_index, btn_status_index } from "../util/statusIndex";
 export default {
+    /*
+    创建订单=>修改订单信息（地址，物流，产品）；删除
+    确认收款=>打印订单；删除
+    确认发货=>(联系卖家)；删除;售后
+    完成订单=>
+
+    已完成=>删除；重新创建订单
+
+    
+    
+    */
     name: "Cart",
     props: ["navTitle"],
 
