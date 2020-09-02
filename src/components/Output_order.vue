@@ -675,7 +675,6 @@ import { Notify } from "vant";
 export default {
     name: "Output_order",
     props: ["navTitle"],
-
     data() {
         return {
             // currentTime: new Date(),
@@ -711,7 +710,7 @@ export default {
                 "chaise_Id",
                 "moreProps",
                 "pillowShow",
-                "chaise_total"
+                "chaise_total",
             ],
             form: {},
             customer_switch: true,
@@ -729,7 +728,7 @@ export default {
             sitList: [],
             armrestList: [],
             customerList: [],
-            expressList: []
+            expressList: [],
         };
     },
     created() {
@@ -737,15 +736,11 @@ export default {
         this.addMore();
     },
     computed: {
-        Id() {
-            return this.$route.params.Id;
-        },
-        lastType() {
-            return this.$route.params.type;
-        },
+        Id: () => this.$route.params.Id,
+        lastType: () => this.$route.params.type,
         getCornerTotal() {
             const arr = this.pages;
-            arr.forEach(ele => {
+            arr.forEach((ele) => {
                 const num = ele.corner_number;
                 ele.corner_total_price = num * ele.corner_single_price;
                 return;
@@ -753,7 +748,7 @@ export default {
         },
         getSofaTotal() {
             const arr = this.pages;
-            arr.forEach(ele => {
+            arr.forEach((ele) => {
                 const num = ele.sofa_number;
                 ele.sofa_total_price = num * ele.sofa_single_price;
                 return;
@@ -762,10 +757,9 @@ export default {
         getAllTotal() {
             const arr = this.pages;
             let all = 0;
-            arr.forEach(ele => {
+            arr.forEach((ele) => {
                 const num2 = ele.sofa_number;
                 const num1 = ele.corner_number;
-
                 ele.sofa_total_price = num2 * ele.sofa_single_price;
                 ele.corner_total_price = num1 * ele.corner_single_price;
 
@@ -777,12 +771,13 @@ export default {
         getneed_price() {
             this.need_price = this.all_price - this.paid_price || 0;
             return;
-        }
+        },
     },
     methods: {
         formatDate(date) {
-            return `${date.getFullYear()}/${date.getMonth() +
-                1}/${date.getDate()}`;
+            return `${date.getFullYear()}/${
+                date.getMonth() + 1
+            }/${date.getDate()}`;
         },
         initForm() {
             this.form = {
@@ -830,12 +825,12 @@ export default {
                 double_order_total: "",
                 single_order_total: "",
                 corner_single_price: "",
-                sofa_single_price: ""
+                sofa_single_price: "",
             };
         },
         initPropsArr(form) {
             const arr = this.needntPropsArray;
-            arr.forEach(ele => {
+            arr.forEach((ele) => {
                 if (ele === "chaise_disabled") {
                     this.$set(form, "chaise_disabled", true);
                 } else if (ele === "chaise_Id") {
@@ -848,7 +843,7 @@ export default {
         objcopy() {
             const obj = {};
             const keys = Object.keys(this.form);
-            keys.forEach(ele => {
+            keys.forEach((ele) => {
                 obj[ele] = "";
             });
             this.initPropsArr(obj);
@@ -975,12 +970,8 @@ export default {
         getExpress(Id) {
             const expressList = this.expressList;
             let obj = {};
-            expressList.forEach(ele => {
-                if (ele.Id === Id) {
-                    obj = ele;
-                }
-            });
-            const { express_name_cn, express_tel, express_no } = obj;
+            let objArr = expressList.filter((i) => i.Id == Id);
+            const { express_name_cn, express_tel, express_no } = objArr[0];
             this.express_name_cn = express_name_cn;
             this.express_tel = express_tel;
             this.express_no = express_no;
@@ -989,12 +980,12 @@ export default {
         getCustomer(Id) {
             const customerList = this.customerList;
             let obj = {};
-            customerList.forEach(ele => {
-                if (ele.Id === Id) {
-                    obj = ele;
-                }
-            });
-            const { customer_name_cn, customer_tel, customer_address } = obj;
+            let objArr = customerList.filter((i) => i.Id == Id);
+            const {
+                customer_name_cn,
+                customer_tel,
+                customer_address,
+            } = objArr[0];
             this.customer_name_cn = customer_name_cn;
             this.customer_tel = customer_tel;
             this.customer_address = customer_address;
@@ -1003,7 +994,7 @@ export default {
         getPillow(page, Id) {
             const pillowList = this.pillowList;
             let obj = {};
-            pillowList.forEach(ele => {
+            pillowList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1016,7 +1007,7 @@ export default {
                 waist_total,
                 waist_color_name_cn,
                 waist_name_cn,
-                pillow_speci_Id
+                pillow_speci_Id,
             } = obj;
             if (waist_total != "0") {
                 page.waist_color_name_cn = waist_color_name_cn;
@@ -1032,7 +1023,7 @@ export default {
         getSofa(page, Id) {
             const sofaList = this.sofaList;
             let obj = {};
-            sofaList.forEach(ele => {
+            sofaList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1047,14 +1038,12 @@ export default {
             this.$set(page, "chaise_disabled", false);
             const CsofaList = this.CsofaList;
             let obj = {};
-            CsofaList.forEach(ele => {
-                if (ele.Id === Id) {
-                    obj = ele;
-                }
-            });
+            let objArr = [];
+            objArr = CsofaList.filter((ele) => ele.Id === Id);
             const {
                 corner_name_cn,
                 corner_color_name_cn,
+                corner_size_name_cn,
                 chaise_Id,
                 l_tea_name_cn,
                 l_tea_size_name_cn,
@@ -1064,11 +1053,12 @@ export default {
                 sit_total,
                 chaise_total,
                 armrest_name_cn,
-                armrest_total
-            } = obj;
+                armrest_total,
+            } = objArr[0];
             page.chaise_Id = chaise_Id;
             page.corner_name_cn = corner_name_cn;
             page.corner_color_name_cn = corner_color_name_cn;
+            page.corner_size_name_cn = corner_size_name_cn;
 
             if (l_tea_total !== "0") {
                 page.l_tea_name_cn = l_tea_name_cn;
@@ -1086,7 +1076,7 @@ export default {
         getArmRest(page, Id) {
             const armrestList = this.armrestList;
             let obj = {};
-            armrestList.forEach(ele => {
+            armrestList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1101,7 +1091,7 @@ export default {
         getSitBoard(page, Id) {
             const sitList = this.sitList;
             let obj = {};
-            sitList.forEach(ele => {
+            sitList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1117,7 +1107,7 @@ export default {
         getSTea(page, Id) {
             const s_teaList = this.s_teaList;
             let obj = {};
-            s_teaList.forEach(ele => {
+            s_teaList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1132,7 +1122,7 @@ export default {
         getRTea(page, Id) {
             const r_teaList = this.r_teaList;
             let obj = {};
-            r_teaList.forEach(ele => {
+            r_teaList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1145,7 +1135,7 @@ export default {
         getLTea(page, Id) {
             const l_teaList = this.l_teaList;
             let obj = {};
-            l_teaList.forEach(ele => {
+            l_teaList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1162,7 +1152,7 @@ export default {
         getSLTea(page, Id) {
             const l_teaList = this.l_teaList;
             let obj = {};
-            l_teaList.forEach(ele => {
+            l_teaList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1176,7 +1166,7 @@ export default {
         getPillow_color(page, Id) {
             const pillow_colorList = this.pillow_colorList;
             let obj = {};
-            pillow_colorList.forEach(ele => {
+            pillow_colorList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1184,7 +1174,7 @@ export default {
             const {
                 pillow_color_name_cn,
                 pillow_name_cn,
-                pillow_color_Id
+                pillow_color_Id,
             } = obj;
 
             page.pillow_color_name_cn = pillow_color_name_cn;
@@ -1196,7 +1186,7 @@ export default {
         getPillow_speci(page, Id) {
             const pillow_speciList = this.pillow_speciList;
             let obj = {};
-            pillow_speciList.forEach(ele => {
+            pillow_speciList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1204,7 +1194,7 @@ export default {
             const {
                 pillow_speci_name_cn,
                 pillow_color_name_cn,
-                pillow_size_name_cn
+                pillow_size_name_cn,
             } = obj;
             page.pillow_speci_name_cn = pillow_speci_name_cn;
             page.pillow_color_name_cn = pillow_color_name_cn;
@@ -1215,7 +1205,7 @@ export default {
         getWaist(page, Id) {
             const waistList = this.waistList;
             let obj = {};
-            waistList.forEach(ele => {
+            waistList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1229,7 +1219,7 @@ export default {
         getWaist_color(page, Id) {
             const waist_colorList = this.waist_colorList;
             let obj = {};
-            waist_colorList.forEach(ele => {
+            waist_colorList.forEach((ele) => {
                 if (ele.Id === Id) {
                     obj = ele;
                 }
@@ -1276,7 +1266,7 @@ export default {
                 } else {
                     Dialog.confirm({
                         title: "警告",
-                        message: "贵妃数量为0是否确认?"
+                        message: "贵妃数量为0是否确认?",
                     })
                         .then(() => {
                             this.$set(
@@ -1299,7 +1289,7 @@ export default {
         onSubmit() {
             const order_no = this.random_No();
             const arr = [];
-            this.pages.forEach(el => {
+            this.pages.forEach((el) => {
                 const obj = {};
                 if (el.sofa_total_price === 0 && el.corner_total_price === 0) {
                     // 提示
@@ -1411,7 +1401,7 @@ export default {
             commonObj.order_status = "未处理";
             const data = {
                 goodsObj: arr,
-                commonObj
+                commonObj,
             };
             /*
           data={
@@ -1431,22 +1421,21 @@ export default {
             const newObj = this.objcopy();
             this.pages.push(newObj);
         },
-        addProps(page, Totrue = true) {
-            this.$set(page, "moreProps", Totrue);
-        },
-        random_No(j) {
-            var random_no = "";
-            for (let i = 0; i < j; i++) {
-                random_no += Math.floor(Math.random() * 10);
+        addProps(page, showProp = true) {
+            if (showProp == false) {
+                page.sofa_name_cn = "";
+                page.sofa_color_name_cn = "";
+                page.sofa_size_name_cn = "";
             }
-            random_no = new Date().getTime() + random_no;
-            return random_no;
+            this.$set(page, "moreProps", showProp);
         },
+        getRandomNum: (count) =>
+            new Date().getTime() + Math.floor(Math.random() * 10),
         onClickLeft() {
             this.$router.go(-1);
         },
-        onClickRight() {}
-    }
+        onClickRight() {},
+    },
 };
 </script>
 <style scoped>

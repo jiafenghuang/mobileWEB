@@ -28,20 +28,33 @@
                     </div>
                     <template #footer>
                         <van-row type="flex" justify="end">
-                            <!-- <van-col span="4">
-                <van-button size="small">按钮</van-button>
-              </van-col>
-              <van-col span="4">
-                <van-button size="small">按钮</van-button>
+                            <van-col span="5">
+                                <van-button
+                                    v-if="isShowButton(item.order_status,1,2,3)"
+                                    size="small"
+                                    @click="printOrder(item)"
+                                >打印订单</van-button>
+                            </van-col>
+                            <!-- <van-col span="5" v-if="isShowButton(item.order_status,3)">
+                                <van-button size="small" @click="afterMarket(item)">售后处理</van-button>
                             </van-col>-->
-                            <van-col span="6">
-                                <van-button size="small" type="danger">取消订单</van-button>
+                            <van-col span="5" v-if="isShowButton(item.order_status,3)">
+                                <van-button size="small" @click="rebuildOrder(item)">重建订单</van-button>
                             </van-col>
-                            <van-col span="6">
-                                <van-button size="small" type="info">查看详情</van-button>
+                            <van-col span="5" v-if="isShowButton(item.order_status,0,1)">
+                                <van-button
+                                    size="small"
+                                    type="danger"
+                                    @click="cancelOrder(item)"
+                                >取消订单</van-button>
                             </van-col>
-
-                            <van-col span="6">
+                            <van-col span="5" v-if="isShowButton(item.order_status,1,0)">
+                                <van-button size="small" type="info" @click="editOrder(item)">修改订单</van-button>
+                            </van-col>
+                            <van-col span="5" v-if="isShowButton(item.order_status,2,3)">
+                                <van-button size="small" type="info" @click="getDetail(item)">查看详情</van-button>
+                            </van-col>
+                            <van-col span="5">
                                 <van-button
                                     size="small"
                                     type="primary"
@@ -114,17 +127,14 @@ import {
     getIsIncluded,
 } from "../util/handleArray";
 import { order_status_index, btn_status_index } from "../util/statusIndex";
+import { baseToFile } from "../util/Base64ToFile";
 export default {
     /*
     创建订单=>修改订单信息（地址，物流，产品）；删除
     确认收款=>打印订单；删除
     确认发货=>(联系卖家)；删除;售后
     完成订单=>
-
-    已完成=>删除；重新创建订单
-
-    
-    
+    已完成=>删除；重新创建订单    
     */
     name: "Cart",
     props: ["navTitle"],
@@ -142,7 +152,6 @@ export default {
     created() {
         this.loadData();
     },
-
     methods: {
         async loadData() {
             const res = await fetchData("outorder/api/fetch", {});
@@ -171,9 +180,6 @@ export default {
             });
             this.finishList = finishList;
         },
-        returnTitle(item) {
-            return `${item.customer_name_cn}(${item.customer_tel})`;
-        },
         onClickLeft() {
             this.$router.go(-1);
         },
@@ -189,7 +195,7 @@ export default {
                 order_status = "2";
             }
             if (status === "2") {
-                order_status = "3";
+                order_status = "0";
             }
             if (status === "3") {
                 // order_status = "3";
@@ -208,11 +214,7 @@ export default {
                     success = false;
                 }
             }
-            if (success) {
-                Toast.success("修改成功");
-            } else {
-                Toast.fail("修改失败");
-            }
+            this.getResult(success, "修改");
             this.loadData();
         },
         changeButtonStatus() {
@@ -220,17 +222,47 @@ export default {
                 ele.button_status = `b${ele.order_status}`;
             });
         },
-
-        getBtnStatus(index) {
-            return btn_status_index[index];
-        },
-        getOrderStatus(index) {
-            return order_status_index[index];
-        },
-        async postFormData(database, data) {
-            const res = await postData(database, data);
+        returnTitle: (item) => `${item.customer_name_cn}(${item.customer_tel})`,
+        getBtnStatus: (index) => btn_status_index[index],
+        getOrderStatus: (index) => order_status_index[index],
+        // agrs是array
+        isShowButton: (status_index, ...agrs) =>
+            agrs.includes(Number(status_index)) ? true : false,
+        async postFormData(uri, data) {
+            const res = await postData(uri, data);
             return res.data;
         },
+        async printOrder(item) {
+            const { details, order_no } = item;
+            let Ids = [];
+            details.forEach((ele) => {
+                Ids.push(ele.Id);
+            });
+            const data = { order_no, Ids };
+            let customerInfo = item.customer_name_cn || item.customer_tel;
+            let fileName = `${customerInfo}${order_no}`;
+            const res = await this.postFormData("tofile/api/create", data);
+            const url = baseToFile.dataURLtoDownload(res, fileName);
+            window.open(url);
+        },
+        rebuildOrder(item) {},
+        async cancelOrder(item) {
+            console.log("item :>> ", item);
+            let arr = item.details.map((i) => i.Id);
+            let flag = true;
+            for (let i of arr) {
+                let res = await deleteData("outorder/api/delete", { Id: i });
+                if (!res.msg) {
+                    flag = false;
+                }
+            }
+            this.getResult(flag, "删除");
+            this.loadData();
+        },
+        editOrder(item) {},
+        getDetail(item) {},
+        getResult: (status, text) =>
+            !!status ? Toast.success(`${text}成功`) : Toast.fail(`${text}失败`),
     },
 };
 </script>

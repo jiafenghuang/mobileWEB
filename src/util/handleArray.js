@@ -25,6 +25,6 @@ export function delEleInArray(array, element) {
  * @param {*} array
  * @returns bool
  */
-export function getIsIncluded(ele, array) {
-  return array.includes(ele);
-}
+export const getIsIncluded = (ele, array) => array.includes(ele);
+export const isShowButton = (index, ...agrs) =>
+  agrs.includes(Number(index)) ? true : false;
