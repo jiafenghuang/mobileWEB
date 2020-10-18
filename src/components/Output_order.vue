@@ -1,5 +1,5 @@
 <template>
-    <div style="min-height:636px">
+    <div style="min-height: 636px">
         <van-nav-bar
             :title="navTitle"
             left-text="返回"
@@ -20,7 +20,12 @@
                 placeholder="请选择型号"
                 @click="loadCornerData(page)"
             />
-            <van-popup v-model="page.cornerShow" round position="bottom" :style="{ height: '70%' }">
+            <van-popup
+                v-model="page.cornerShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
+            >
                 <van-list>
                     <van-cell
                         v-for="item in CsofaList"
@@ -29,15 +34,15 @@
                         is-link
                         @click="getCorner(page, item.Id)"
                     >
-                        <van-tag v-if="item.corner_color_name_cn" mark type="primary">
-                            {{
-                            item.corner_color_name_cn
-                            }}
+                        <van-tag
+                            v-if="item.corner_color_name_cn"
+                            mark
+                            type="primary"
+                        >
+                            {{ item.corner_color_name_cn }}
                         </van-tag>
                         <van-tag v-if="item.cstock_remark">
-                            {{
-                            item.cstock_remark
-                            }}
+                            {{ item.cstock_remark }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -77,11 +82,11 @@
                         is-link
                         @click="getArmRest(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.armrest_total||0 }}</van-tag>
+                        <van-tag round type="danger">{{
+                            item.armrest_total || 0
+                        }}</van-tag>
                         <van-tag v-if="item.armrest_remark">
-                            {{
-                            item.armrest_remark
-                            }}
+                            {{ item.armrest_remark }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -96,7 +101,12 @@
                 placeholder="请输入坐靠型号"
                 @click="loadSitData(page)"
             />
-            <van-popup v-model="page.sitShow" round position="bottom" :style="{ height: '70%' }">
+            <van-popup
+                v-model="page.sitShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
+            >
                 <van-list>
                     <van-cell
                         v-for="item in sitList"
@@ -105,13 +115,19 @@
                         is-link
                         @click="getSitBoard(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.sit_total||0 }}</van-tag>
-                        <van-tag v-if="item.sit_size_name_cn" mark type="primary">
-                            {{
-                            item.sit_size_name_cn
-                            }}
+                        <van-tag round type="danger">{{
+                            item.sit_total || 0
+                        }}</van-tag>
+                        <van-tag
+                            v-if="item.sit_size_name_cn"
+                            mark
+                            type="primary"
+                        >
+                            {{ item.sit_size_name_cn }}
                         </van-tag>
-                        <van-tag v-if="item.sit_remark">{{ item.sit_remark }}</van-tag>
+                        <van-tag v-if="item.sit_remark">{{
+                            item.sit_remark
+                        }}</van-tag>
                     </van-cell>
                 </van-list>
             </van-popup>
@@ -132,7 +148,13 @@
                 placeholder="请输入长几型号"
                 @click="loadLTea(page)"
             />
-            <van-popup v-model="page.lTeaShow" round position="bottom" :style="{ height: '70%' }">
+
+            <van-popup
+                v-model="page.lTeaShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
+            >
                 <van-list>
                     <van-cell
                         v-for="item in l_teaList"
@@ -141,13 +163,19 @@
                         is-link
                         @click="getLTea(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.l_tea_total||0 }}</van-tag>
-                        <van-tag v-if="item.l_tea_size_name_cn" mark type="primary">
-                            {{
-                            item.l_tea_size_name_cn
-                            }}
+                        <van-tag round type="danger">{{
+                            item.l_tea_total || 0
+                        }}</van-tag>
+                        <van-tag
+                            v-if="item.l_tea_size_name_cn"
+                            mark
+                            type="primary"
+                        >
+                            {{ item.l_tea_size_name_cn }}
                         </van-tag>
-                        <van-tag v-if="item.l_tea_remark">{{ item.l_tea_remark }}</van-tag>
+                        <van-tag v-if="item.l_tea_remark">{{
+                            item.l_tea_remark
+                        }}</van-tag>
                     </van-cell>
                 </van-list>
             </van-popup>
@@ -158,24 +186,38 @@
                 placeholder="请选择长几尺寸"
                 disabled
             />
+
             <van-cell title="长几数量">
                 <van-stepper :min="0" v-model="page.l_tea_order_total" />
             </van-cell>
+
             <van-field
+                clearable
                 v-model="page.chaise_name_cn"
                 label="贵妃"
-                clearable
-                placeholder="请先选择转角型号"
-                disabled
+                placeholder="请先选择贵妃型号"
+                @click="loadChaiseData(page)"
+            />
+            <van-popup
+                v-model="page.chaiseShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
             >
-                <van-checkbox
-                    shape="square"
-                    slot="left-icon"
-                    v-model="page.chaise_checked"
-                    :disabled="page.chaise_disabled"
-                    @click="setChaise(page)"
-                />
-            </van-field>
+                <van-list>
+                    <van-cell
+                        v-for="item in chaiseList"
+                        :key="item.Id"
+                        :title="item.chaise_name_cn"
+                        is-link
+                        @click="getChaise(page, item.Id)"
+                    >
+                        <van-tag v-if="item.chaise_total">{{
+                            item.chaise_total
+                        }}</van-tag>
+                    </van-cell>
+                </van-list>
+            </van-popup>
             <van-cell title="贵妃数量">
                 <van-stepper :min="0" v-model="page.chaise_order_total" />
             </van-cell>
@@ -201,7 +243,12 @@
                 placeholder="请选择坐垫型号"
                 @click="loadPillowData(page)"
             />
-            <van-popup v-model="page.pillowShow" round position="bottom" :style="{ height: '70%' }">
+            <van-popup
+                v-model="page.pillowShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
+            >
                 <van-list>
                     <van-cell
                         v-for="item in pillowList"
@@ -211,9 +258,7 @@
                         @click="getPillow(page, item.Id)"
                     >
                         <van-tag v-if="item.pillow_remark">
-                            {{
-                            item.pillow_remark
-                            }}
+                            {{ item.pillow_remark }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -240,16 +285,22 @@
                         is-link
                         @click="getPillow_speci(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.pillow_total ||0}}</van-tag>
-                        <van-tag v-if="item.pillow_color_name_cn" type="primary" mark>
-                            {{
-                            item.pillow_color_name_cn
-                            }}
+                        <van-tag round type="danger">{{
+                            item.pillow_total || 0
+                        }}</van-tag>
+                        <van-tag
+                            v-if="item.pillow_color_name_cn"
+                            type="primary"
+                            mark
+                        >
+                            {{ item.pillow_color_name_cn }}
                         </van-tag>
-                        <van-tag v-if="item.pillow_size_name_cn" type="primary" mark>
-                            {{
-                            item.pillow_size_name_cn
-                            }}
+                        <van-tag
+                            v-if="item.pillow_size_name_cn"
+                            type="primary"
+                            mark
+                        >
+                            {{ item.pillow_size_name_cn }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -284,11 +335,11 @@
                         is-link
                         @click="getPillow_color(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.pillow_color_total||0 }}</van-tag>
+                        <van-tag round type="danger">{{
+                            item.pillow_color_total || 0
+                        }}</van-tag>
                         <van-tag v-if="item.pillow_color_remark">
-                            {{
-                            item.pillow_color_remark
-                            }}
+                            {{ item.pillow_color_remark }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -304,7 +355,12 @@
                 placeholder="请选择腰包型号"
                 @click="loadWaist(page)"
             />
-            <van-popup v-model="page.waistShow" round position="bottom" :style="{ height: '70%' }">
+            <van-popup
+                v-model="page.waistShow"
+                round
+                position="bottom"
+                :style="{ height: '70%' }"
+            >
                 <van-list>
                     <van-cell
                         v-for="item in waistList"
@@ -313,13 +369,19 @@
                         is-link
                         @click="getWaist(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.waist_total ||0}}</van-tag>
-                        <van-tag v-if="item.waist_color_name_cn" mark type="primary">
-                            {{
-                            item.waist_color_name_cn
-                            }}
+                        <van-tag round type="danger">{{
+                            item.waist_total || 0
+                        }}</van-tag>
+                        <van-tag
+                            v-if="item.waist_color_name_cn"
+                            mark
+                            type="primary"
+                        >
+                            {{ item.waist_color_name_cn }}
                         </van-tag>
-                        <van-tag v-if="item.waist_remark">{{ item.waist_remark }}</van-tag>
+                        <van-tag v-if="item.waist_remark">{{
+                            item.waist_remark
+                        }}</van-tag>
                     </van-cell>
                 </van-list>
             </van-popup>
@@ -345,11 +407,11 @@
                         is-link
                         @click="getWaist_color(page, item.Id)"
                     >
-                        <van-tag round type="danger">{{ item.waist_color_total ||0}}</van-tag>
+                        <van-tag round type="danger">{{
+                            item.waist_color_total || 0
+                        }}</van-tag>
                         <van-tag v-if="item.waist_color_remark">
-                            {{
-                            item.waist_color_remark
-                            }}
+                            {{ item.waist_color_remark }}
                         </van-tag>
                     </van-cell>
                 </van-list>
@@ -383,16 +445,22 @@
                             is-link
                             @click="getSofa(page, item.Id)"
                         >
-                            <van-tag v-if="item.sofa_color_name_cn" mark type="primary">
-                                {{
-                                item.sofa_color_name_cn
-                                }}
+                            <van-tag
+                                v-if="item.sofa_color_name_cn"
+                                mark
+                                type="primary"
+                            >
+                                {{ item.sofa_color_name_cn }}
                             </van-tag>
-                            <van-tag v-if="item.sofa_remark">{{ item.sofa_remark }}</van-tag>
-                            <van-tag v-if="item.sofa_size_name_cn" mark type="primary">
-                                {{
-                                item.sofa_size_name_cn
-                                }}
+                            <van-tag v-if="item.sofa_remark">{{
+                                item.sofa_remark
+                            }}</van-tag>
+                            <van-tag
+                                v-if="item.sofa_size_name_cn"
+                                mark
+                                type="primary"
+                            >
+                                {{ item.sofa_size_name_cn }}
                             </van-tag>
                         </van-cell>
                     </van-list>
@@ -441,16 +509,18 @@
                             is-link
                             @click="getSLTea(page, item.Id)"
                         >
-                            <van-tag round type="danger">{{ item.l_tea_total||0 }}</van-tag>
-                            <van-tag v-if="item.l_tea_size_name_cn" mark type="primary">
-                                {{
-                                item.l_tea_size_name_cn
-                                }}
+                            <van-tag round type="danger">{{
+                                item.l_tea_total || 0
+                            }}</van-tag>
+                            <van-tag
+                                v-if="item.l_tea_size_name_cn"
+                                mark
+                                type="primary"
+                            >
+                                {{ item.l_tea_size_name_cn }}
                             </van-tag>
                             <van-tag v-if="item.l_tea_remark">
-                                {{
-                                item.l_tea_remark
-                                }}
+                                {{ item.l_tea_remark }}
                             </van-tag>
                         </van-cell>
                     </van-list>
@@ -486,12 +556,12 @@
                             is-link
                             @click="getSTea(page, item.Id)"
                         >
-                            <van-tag round type="danger">{{ item.s_tea_total||0}}</van-tag>
+                            <van-tag round type="danger">{{
+                                item.s_tea_total || 0
+                            }}</van-tag>
 
                             <van-tag v-if="item.s_tea_remark">
-                                {{
-                                item.s_tea_remark
-                                }}
+                                {{ item.s_tea_remark }}
                             </van-tag>
                         </van-cell>
                     </van-list>
@@ -520,11 +590,11 @@
                             is-link
                             @click="getRTea(page, item.Id)"
                         >
-                            <van-tag round type="danger">{{ item.r_tea_total }}</van-tag>
+                            <van-tag round type="danger">{{
+                                item.r_tea_total
+                            }}</van-tag>
                             <van-tag v-if="item.r_tea_remark">
-                                {{
-                                item.r_tea_remark
-                                }}
+                                {{ item.r_tea_remark }}
                             </van-tag>
                         </van-cell>
                     </van-list>
@@ -545,17 +615,27 @@
                     <van-stepper :min="0" v-model="page.sofa_number" />
                 </van-cell>
             </div>
-            <div style="text-align:center">
-                <van-button v-if="!page.moreProps" @click="addProps(page)">更多属性</van-button>
-                <van-button v-if="page.moreProps" @click="addProps(page, false)">收起</van-button>
+            <div style="text-align: center">
+                <van-button v-if="!page.moreProps" @click="addProps(page)"
+                    >更多属性</van-button
+                >
+                <van-button v-if="page.moreProps" @click="addProps(page, false)"
+                    >收起</van-button
+                >
             </div>
             <van-divider />
         </div>
-        <div style="margin: 16px;">
+        <div style="margin: 16px">
             <van-button @click="addMore">+添加其他商品</van-button>
         </div>
         <van-divider content-position="left">订单信息</van-divider>
-        <van-field v-model="total_pieces" type="digit" label="总件数" clearable placeholder="请填写总件数" />
+        <van-field
+            v-model="total_pieces"
+            type="digit"
+            label="总件数"
+            clearable
+            placeholder="请填写总件数"
+        />
         <van-field
             size="large"
             v-model="all_price"
@@ -581,7 +661,11 @@
             placeholder="请填写余额"
         />
 
-        <van-cell title="送货日期" v-model="send_time" @click="send_time_show = true" />
+        <van-cell
+            title="送货日期"
+            v-model="send_time"
+            @click="send_time_show = true"
+        />
         <van-calendar
             v-model="send_time_show"
             :show-confirm="false"
@@ -595,9 +679,18 @@
             placeholder="请填写客户名称"
             @click="loadCustomer"
         >
-            <van-switch v-model="customer_switch" slot="left-icon" size="20px" />
+            <van-switch
+                v-model="customer_switch"
+                slot="left-icon"
+                size="20px"
+            />
         </van-field>
-        <van-field v-model="customer_tel" label="客户电话" clearable placeholder="请填写客户电话" />
+        <van-field
+            v-model="customer_tel"
+            label="客户电话"
+            clearable
+            placeholder="请填写客户电话"
+        />
         <van-field
             v-model="customer_address"
             type="textarea"
@@ -607,9 +700,14 @@
             clearable
             placeholder="请填写客户地址"
         />
-        <van-popup v-model="customer_info_show" round position="bottom" :style="{ height: '70%' }">
+        <van-popup
+            v-model="customer_info_show"
+            round
+            position="bottom"
+            :style="{ height: '70%' }"
+        >
             <van-panel
-                style="margin-top:30px"
+                style="margin-top: 30px"
                 v-for="item in customerList"
                 :key="item.Id"
                 :title="item.customer_name_cn"
@@ -628,7 +726,12 @@
         >
             <van-switch v-model="express_switch" slot="left-icon" size="20px" />
         </van-field>
-        <van-field v-model="express_tel" label="物流电话" clearable placeholder="请填写物流电话" />
+        <van-field
+            v-model="express_tel"
+            label="物流电话"
+            clearable
+            placeholder="请填写物流电话"
+        />
         <van-field
             v-model="express_no"
             type="textarea"
@@ -638,9 +741,14 @@
             clearable
             placeholder="请填写物流号"
         />
-        <van-popup v-model="express_info_show" round position="bottom" :style="{ height: '70%' }">
+        <van-popup
+            v-model="express_info_show"
+            round
+            position="bottom"
+            :style="{ height: '70%' }"
+        >
             <van-panel
-                style="margin-top:30px"
+                style="margin-top: 30px"
                 v-for="item in expressList"
                 :key="item.Id"
                 :title="item.express_name_cn"
@@ -659,8 +767,10 @@
             clearable
             placeholder="请填写订单备注"
         />
-        <div style="margin: 16px;">
-            <van-button round block type="info" @click="onSubmit">保存</van-button>
+        <div style="margin: 16px">
+            <van-button round block type="info" @click="onSubmit"
+                >保存</van-button
+            >
         </div>
         {{ getCornerTotal }}
         {{ getSofaTotal }}
@@ -692,6 +802,7 @@ export default {
             express_no: "",
             // 弹出层的控制
             send_time_show: false,
+            chaiseShow: false,
             customer_info_show: false,
             express_info_show: false,
             // 订单
@@ -721,6 +832,7 @@ export default {
             s_teaList: [],
             r_teaList: [],
             pillowList: [],
+            chaiseList: [],
             waistList: [],
             pillow_colorList: [],
             pillow_speciList: [],
@@ -912,6 +1024,13 @@ export default {
                 this.pillowList = rtea.data;
             }
         },
+        async loadChaiseData(page) {
+            this.$set(page, "chaiseShow", true);
+            if (this.chaiseList.length === 0) {
+                const chaise = await fetchData("chaise/api/fetch", {});
+                this.chaiseList = chaise.data;
+            }
+        },
         async loadPillow_color(page) {
             this.$set(page, "pillow_colorShow", true);
             if (this.pillow_colorList.length === 0) {
@@ -931,17 +1050,6 @@ export default {
             if (this.waistList.length === 0) {
                 const rtea = await fetchData("waist/api/fetch", {});
                 this.waistList = rtea.data;
-            }
-        },
-        loadCustomer() {
-            const customer_switch = this.customer_switch;
-            if (customer_switch === false) {
-                return;
-            } else {
-                this.customer_info_show = true;
-                if (this.customerList.length === 0) {
-                    this.loadCustomerData();
-                }
             }
         },
         async loadCustomerData() {
@@ -964,6 +1072,20 @@ export default {
                 if (this.expressList.length === 0) {
                     const rtea = await fetchData("express/api/fetch", {});
                     this.expressList = rtea.data;
+                }
+            }
+        },
+        async postOrderData(data) {
+            const res = await postData("outorder/api/create", data);
+        },
+        loadCustomer() {
+            const customer_switch = this.customer_switch;
+            if (customer_switch === false) {
+                return;
+            } else {
+                this.customer_info_show = true;
+                if (this.customerList.length === 0) {
+                    this.loadCustomerData();
                 }
             }
         },
@@ -1140,7 +1262,6 @@ export default {
                     obj = ele;
                 }
             });
-
             const { l_tea_table_Id, l_tea_name_cn, l_tea_size_name_cn } = obj;
             page.l_tea_table_Id = l_tea_table_Id;
 
@@ -1230,6 +1351,26 @@ export default {
             page.waist_color_name_cn = waist_color_name_cn;
             this.onClosePop(page);
         },
+        getChaise(page, Id) {
+            const chaiseList = this.chaiseList;
+            let obj = {};
+            chaiseList.forEach((ele) => {
+                if (ele.Id === Id) {
+                    obj = ele;
+                }
+            });
+            const {
+                chaise_Id,
+                chaise_total,
+                chaise_name_cn,
+                chaise_remark,
+            } = obj;
+            page.chaise_Id = chaise_Id;
+            page.chaise_name_cn = chaise_name_cn;
+            page.chaise_total = chaise_total;
+            page.chaise_remark = chaise_remark;
+            this.onClosePop(page);
+        },
         onClosePop(page) {
             this.$set(page, "sofaShow", false);
             this.$set(page, "cornerShow", false);
@@ -1243,6 +1384,7 @@ export default {
             this.$set(page, "lTeaShow", false);
             this.$set(page, "rTeaShow", false);
             this.$set(page, "sTeaShow", false);
+            this.$set(page, "chaiseShow", false);
         },
         async setChaise(page) {
             if (!page.chaise_Id) {
@@ -1287,7 +1429,7 @@ export default {
             this.send_time = this.formatDate(val);
         },
         onSubmit() {
-            const order_no = this.random_No();
+            const order_no = this.getRandomNum();
             const arr = [];
             this.pages.forEach((el) => {
                 const obj = {};
@@ -1414,9 +1556,6 @@ export default {
                 this.postOrderData(data);
             }
         },
-        async postOrderData(data) {
-            const res = await postData("outorder/api/create", data);
-        },
         addMore() {
             const newObj = this.objcopy();
             this.pages.push(newObj);
@@ -1441,14 +1580,5 @@ export default {
 <style scoped>
 .panelBody /deep/ {
     margin-left: 15px;
-}
-.gray {
-    color: #666;
-}
-.red {
-    color: red;
-}
-.green {
-    color: green;
 }
 </style>
